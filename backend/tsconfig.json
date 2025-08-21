@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    // Diretórios
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Configuração de módulos (CommonJS para Node.js)
+    "module": "commonjs",
+    "target": "es2019",
+    "moduleResolution": "node",
+
+    // Tipos para Node
+    "lib": ["esnext"],
+    "types": ["node"],
+
+    // Geração de saída
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Type checking mais seguro
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // JSX (caso queira compartilhar config com o frontend)
+    "jsx": "react-jsx",
+
+    // Outras configs
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
