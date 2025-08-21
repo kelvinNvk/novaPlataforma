@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+provider = "prisma-client-js"
+}
+
+
+datasource db {
+provider = "postgresql"
+url = env("DATABASE_URL")
+}
+
+
+// Enums tornam os valores padronizados e seguros
+enum CourseLevel {
+beginner
+intermediate
+advanced
+}
+
+
+enum CourseStatus {
+draft
+published
+archived
+}
+
+
+model User {
+id Int @id @default(autoincrement())
+name String
+email String @unique
+password String // hash (argon2)
+role String @default("user") // "user" | "admin" (RBAC simples)
+createdAt DateTime @default(now())
+}
+
+
+model Course {
+id Int @id @default(autoincrement())
+title String
+slug String @unique
+description String
+language String @default("en")
+level CourseLevel @default(beginner)
+thumbUrl String?
+status CourseStatus @default(published)
+lessons Lesson[]
+createdAt DateTime @default(now())
+}
+
+
+model Lesson {
+id Int @id @default(autoincrement())
+courseId Int
+title String
+order Int
+videoProvider String // "youtube" | "vimeo" | "cloudflare" | etc.
+videoId String
+durationSec Int?
+Course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+
+@@index([courseId, order])
+}
