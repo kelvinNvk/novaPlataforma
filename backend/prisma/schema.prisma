@@ -29,14 +29,23 @@ published
 archived
 }
 
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
 
 model User {
-id Int @id @default(autoincrement())
-name String
-email String @unique
-password String // hash (argon2)
-role String @default("user") // "user" | "admin" (RBAC simples)
-createdAt DateTime @default(now())
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  role          Role            @default(STUDENT)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // relação inversa
+  refreshTokens RefreshToken[]
 }
 
 
@@ -66,4 +75,16 @@ Course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
 
 @@index([courseId, order])
+}
+
+model RefreshToken {
+  id               String   @id                // usamos como JTI (randomUUID)
+  userId           Int
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  replacedByTokenId String?
+  createdAt        DateTime @default(now())
+
+  @@index([userId])
 }
