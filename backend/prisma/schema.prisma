@@ -33,6 +33,7 @@ enum Role {
   ADMIN
   TEACHER
   STUDENT
+  USER
 }
 
 model User {
@@ -40,7 +41,7 @@ model User {
   name          String
   email         String          @unique
   password      String
-  role          Role            @default(STUDENT)
+  role          Role            @default(USER)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 
@@ -78,13 +79,12 @@ Course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model RefreshToken {
-  id               String   @id                // usamos como JTI (randomUUID)
-  userId           Int
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt        DateTime
-  revokedAt        DateTime?
+  id              String   @id @default(uuid()) // tem que estar assim
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt       DateTime
+  revokedAt       DateTime?
   replacedByTokenId String?
-  createdAt        DateTime @default(now())
-
+  createdAt       DateTime @default(now())
   @@index([userId])
 }

@@ -3,8 +3,13 @@
     // Diretórios
     "rootDir": "./src",
     "outDir": "./dist",
+    "types": ["node", "express"],
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
+    
 
+    
     // Configuração de módulos (CommonJS para Node.js)
+
     "module": "commonjs",
     "target": "es2019",
     "moduleResolution": "node",

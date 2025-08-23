@@ -1,77 +1,45 @@
-import { PrismaClient } from "@prisma/client";
-import crypto from "crypto";
+// src/seed.ts
+import { PrismaClient, Role } from "@prisma/client";
+// Se seu tsconfig não tem "esModuleInterop": true, troque para:
+//   import * as bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Iniciando seed...");
 
-  // 1. Criar usuário ADMIN
-  const admin = await prisma.user.upsert({
-    where: { email: "admin@example.com" },
-    update: {},
-    create: {
-      name: "Admin User",
-      email: "admin@example.com",
-      password: "hashedpassword", // depois vamos trocar por bcrypt
-      role: "ADMIN",
-    },
-  });
+  const passwordHash = await bcrypt.hash("123456", 10);
 
-  console.log("✅ Usuário admin criado:", admin.email);
+  // use o enum Role.* em vez de strings
+  const users: Array<{ name: string; email: string; role: Role }> = [
+    { name: "Admin User", email: "admin@example.com", role: Role.ADMIN },
+    { name: "Teacher User", email: "teacher@example.com", role: Role.TEACHER },
+    { name: "Student User", email: "student@example.com", role: Role.STUDENT },
+    { name: "Basic User", email: "user@example.com", role: Role.USER },
+  ];
 
-  // 2. Criar curso
-  const course = await prisma.course.create({
-    data: {
-      title: "Curso de Node.js",
-      slug: "curso-node",
-      description: "Aprenda Node.js com exemplos práticos",
-      level: "beginner", // precisa ser minúsculo igual no schema
-      status: "published",
-      language: "pt",
-      lessons: {
-        create: [
-          {
-            title: "Introdução ao Node.js",
-            order: 1,
-            videoProvider: "youtube",
-            videoId: "abc123",
-            durationSec: 600,
-          },
-          {
-            title: "Configuração do Ambiente",
-            order: 2,
-            videoProvider: "youtube",
-            videoId: "def456",
-            durationSec: 800,
-          },
-        ],
+  for (const u of users) {
+    await prisma.user.upsert({
+      where: { email: u.email },
+      update: {}, // não atualiza nada se já existir
+      create: {
+        name: u.name,
+        email: u.email,
+        password: passwordHash, // campo conforme seu schema
+        role: u.role, // enum, não string!
       },
-    },
-  });
+    });
+  }
 
-  console.log("✅ Curso criado:", course.title);
-
-  // 3. Criar refresh token para o admin
-  const refreshToken = await prisma.refreshToken.create({
-    data: {
-      id: crypto.randomUUID(), // JTI
-      userId: admin.id,
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 dias
-    },
-  });
-
-  console.log("✅ Refresh token criado para admin:", refreshToken.id);
-
-  console.log("🌱 Seed concluído com sucesso!");
+  console.log("✅ Seed executado com sucesso!");
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
+  .catch((e) => {
     console.error("❌ Erro no seed:", e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
