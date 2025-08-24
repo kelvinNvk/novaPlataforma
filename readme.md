@@ -1,90 +1,76 @@
-PT-BR:
+# 📚 Nova Plataforma de Cursos / New Course Platform
 
-📚 Nova Plataforma de Cursos
+Uma plataforma moderna de cursos online, construída com **Node.js, Prisma, PostgreSQL, React e TailwindCSS**.  
+Foco em **escalabilidade, segurança e experiência de usuário fluida**.
 
-Uma plataforma moderna de cursos online, construída com Node.js, Prisma, PostgreSQL, React e TailwindCSS.
-Foco em escalabilidade, segurança e experiência de usuário fluida.
+A modern online learning platform built with **Node.js, Prisma, PostgreSQL, React, and TailwindCSS**.  
+Focused on **scalability, security, and smooth user experience**.
 
-🚀 Tech Stack
+---
 
-Backend
+## 🚀 Tech Stack
 
-Node.js + Express (API RESTful)
+### Backend
 
-TypeScript
+- Node.js + Express (API RESTful)
+- TypeScript
+- Prisma ORM + PostgreSQL
+- JWT + Refresh Tokens (Auth)
+- RBAC (controle de permissões por role / Role-Based Access Control)
 
-Prisma ORM + PostgreSQL
+### Frontend
 
-JWT + Refresh Tokens (Auth)
+- React + Vite + TypeScript
+- TailwindCSS
+- Axios (com interceptors para JWT / with JWT interceptors)
 
-RBAC (controle de permissões por role)
+---
 
-Frontend
+## ✅ Funcionalidades Concluídas / Completed Features
 
-React + Vite + TypeScript
+### Backend
 
-TailwindCSS
+- API base rodando em `/api` / Base API running at `/api`
+- Health check em `/api/health`
+- Prisma ORM com schema completo / Prisma ORM with complete schema:
+  - **User** (role: `ADMIN | TEACHER | USER`)
+  - **Course** (slug, nível/level, status)
+  - **Lesson** (ordem/order, vídeo/video provider, videoId)
+- Autenticação completa / Full Authentication (Step 1):
+  - Login com `accessToken` e `refreshToken`
+  - Refresh de tokens / Token refresh
+  - Logout com invalidação do refresh token / Refresh token invalidation
+  - Middleware de autenticação / Authentication middleware
+  - Middleware de autorização (RBAC) / Authorization middleware (RBAC)
+  - Tipagem estendida de `req.user` no Express / Extended typing for `req.user` in Express
+- **CRUD de Usuários (restrito a ADMIN) / User CRUD (ADMIN only)**
+  - Listar / List all users
+  - Criar / Create user
+  - Atualizar / Update user
+  - Deletar / Delete user (com mensagens customizadas / with custom response messages)
 
-Axios (com interceptors para JWT)
+### Frontend
 
-✅ Funcionalidades Concluídas
-Backend
+- Projeto base configurado (React + Vite + TS + Tailwind) / Base project setup
+- Integração inicial com API / Initial API integration
+- Teste de login funcionando / Login test working
 
-API base rodando em /api
+---
 
-Health check em /api/health
+## 📌 Próximos Passos / Next Steps
 
-Prisma ORM com schema completo:
+- **CRUD de Cursos e Aulas (ADMIN/TEACHER) / Course & Lesson CRUD (ADMIN/TEACHER)**
+  - Admin/Teacher criam e editam cursos / Admins & Teachers can create and edit courses
+  - Usuários podem consumir aulas / Users can access lessons
+- **Integração Frontend com autenticação JWT + refresh automático / Frontend integration with JWT auth + auto-refresh**
+- **Painel Administrativo / Admin Dashboard** (gestão de cursos, professores e alunos / manage courses, teachers, and students)
+- **Placeholder de AdSense/Ads**
+- **Planejamento de Deploy / Deployment Plan** (Render/Vercel + PostgreSQL gerenciado / managed PostgreSQL)
 
-User (com role: ADMIN | TEACHER | USER)
+---
 
-Course (com slug, nível, status)
+## 📂 Estrutura Atual / Current Structure
 
-Lesson (com ordem, vídeo, provider)
-
-Autenticação completa (Etapa 1)
-
-Login com geração de accessToken e refreshToken
-
-Refresh de tokens
-
-Logout com invalidação do refresh token
-
-Middleware de autenticação
-
-Middleware de autorização (RBAC)
-
-Tipagem estendida de req.user no Express
-
-Frontend
-
-Projeto base configurado (React + Vite + TS + Tailwind)
-
-Integração inicial com API
-
-Teste de login funcionando
-
-📌 Próximos Passos
-
-CRUD de Usuários (restrito a ADMIN)
-
-Listar, criar, atualizar e deletar usuários
-
-CRUD de Cursos e Aulas (ADMIN/TEACHER)
-
-Admin/Teacher criam e editam cursos
-
-Usuários podem consumir aulas
-
-Integração Frontend com autenticação JWT + Refresh automático
-
-Painel Administrativo (gestão de cursos, professores e alunos)
-
-Placeholder de AdSense/Ads
-
-Planejamento de Deploy (Render/Vercel + banco PostgreSQL gerenciado)
-
-📂 Estrutura Atual
 backend/
 src/
 config/
@@ -99,6 +85,7 @@ types/
 utils/
 prisma/
 package.json
+
 frontend/
 src/
 components/
@@ -107,141 +94,12 @@ services/
 styles/
 package.json
 
-📊 Status do Projeto
-
-🔄 Em desenvolvimento – backend com autenticação robusta já funcional, integração inicial do frontend confirmada.
-Próxima meta: CRUD de Usuários restrito a ADMIN.
-
 ---
 
-## 📈 Status do Projeto
+## 📊 Status do Projeto / Project Status
 
-Este projeto está em **desenvolvimento ativo**.  
-O objetivo é fornecer uma **plataforma de aprendizado segura, escalável e fácil de usar**.
+🔄 Em desenvolvimento – backend com autenticação robusta e **CRUD de usuários já funcional**, integração inicial do frontend confirmada.  
+🎯 Próxima meta: CRUD de Cursos e Aulas restrito a ADMIN/TEACHER.
 
----
-
--//- ------------------------------------- -//-
-
-ENG:
-
-📚 New Course Platform
-
-A modern online learning platform built with Node.js, Prisma, PostgreSQL, React, and TailwindCSS.
-Focused on scalability, security, and a smooth user experience.
-
-🚀 Tech Stack
-
-Backend
-
-Node.js + Express (REST API)
-
-TypeScript
-
-Prisma ORM + PostgreSQL
-
-JWT + Refresh Tokens (Authentication)
-
-RBAC (Role-Based Access Control)
-
-Frontend
-
-React + Vite + TypeScript
-
-TailwindCSS
-
-Axios (with interceptors for JWT)
-
-✅ Completed Features
-Backend
-
-Base API running on /api
-
-Health check at /api/health
-
-Prisma ORM with complete schema:
-
-User (with role: ADMIN | TEACHER | USER)
-
-Course (with slug, level, status)
-
-Lesson (with order, video provider, video id)
-
-Full Authentication (Step 1)
-
-Login with accessToken and refreshToken generation
-
-Token refresh
-
-Logout with refresh token invalidation
-
-Authentication middleware
-
-Authorization middleware (RBAC)
-
-Extended typing for req.user in Express
-
-Frontend
-
-Base project setup (React + Vite + TS + Tailwind)
-
-Initial API integration
-
-Login test working
-
-📌 Next Steps
-
-User CRUD (ADMIN only)
-
-List, create, update, and delete users
-
-Course & Lesson CRUD (ADMIN/TEACHER)
-
-Admin/Teacher can create and edit courses
-
-Users can access lessons
-
-Frontend integration with JWT auth + automatic refresh
-
-Admin Dashboard (manage courses, teachers, and students)
-
-AdSense/Ads placeholder
-
-Deployment Plan (Render/Vercel + managed PostgreSQL)
-
-📂 Current Structure
-backend/
-src/
-config/
-controllers/
-libs/
-middlewares/
-modules/
-auth/
-user/
-routes/
-types/
-utils/
-prisma/
-package.json
-frontend/
-src/
-components/
-pages/
-services/
-styles/
-package.json
-
-📊 Project Status
-
-🔄 In progress — backend with robust authentication already functional, initial frontend integration confirmed.
-Next goal: User CRUD restricted to ADMIN.
-
----
-
-## 📈 Project Status
-
-This project is under **active development**.  
-The goal is to provide a **secure, scalable, and user-friendly learning platform**.
-
----
+🔄 In progress — backend with robust authentication and **user CRUD fully functional**, initial frontend integration confirmed.  
+🎯 Next goal: Course & Lesson CRUD restricted to ADMIN/TEACHER.
