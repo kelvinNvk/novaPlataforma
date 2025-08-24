@@ -6,10 +6,19 @@ import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import "dotenv/config";
 
+import { Router } from "express";
 import authRoutes from "./modules/auth/auth.routes";
-import { userRoutes } from "./modules/user/user.routes"; // 🚀 importando as rotas de usuários
+import userRoutes from "./modules/user/user.routes";
 
 dotenv.config();
+
+//rotas
+const router = Router();
+
+router.use("/auth", authRoutes);
+router.use("/users", userRoutes);
+
+export default router;
 
 const app = express();
 

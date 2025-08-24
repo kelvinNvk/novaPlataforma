@@ -3,39 +3,40 @@
     // Diretórios
     "rootDir": "./src",
     "outDir": "./dist",
+
+    // Tipos
     "types": ["node", "express"],
-    "typeRoots": ["./src/@types", "./node_modules/@types"],
-    
 
-    
-    // Configuração de módulos (CommonJS para Node.js)
+    // Aliases
+    "baseUrl": "./src",
+    "paths": {
+      "@prisma": ["prisma"],
+      "@config/*": ["config/*"],
+      "@modules/*": ["modules/*"]
+    },
 
+    // Módulos
     "module": "commonjs",
-    "target": "es2019",
+    "target": "es2020",
     "moduleResolution": "node",
 
-    // Tipos para Node
+    // Bibliotecas
     "lib": ["esnext"],
-    "types": ["node"],
 
     // Geração de saída
     "sourceMap": true,
     "declaration": true,
-    "declarationMap": true,
 
-    // Type checking mais seguro
+    // Segurança
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-
-    // JSX (caso queira compartilhar config com o frontend)
-    "jsx": "react-jsx",
 
     // Outras configs
     "skipLibCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
+  "include": ["src", "prisma/seed.ts"],
   "exclude": ["node_modules", "dist"]
 }

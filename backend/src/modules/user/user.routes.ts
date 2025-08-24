@@ -1,10 +1,22 @@
 // src/modules/user/user.routes.ts
 import { Router } from "express";
-import { listUsers } from "./user.controller";
-import { authenticate } from "../../middlewares/authenticate";
+import { authenticate } from "../../middlewares/auth.middleware";
 import { requireRole } from "../../middlewares/authorize";
 
-export const userRoutes = Router();
+import {
+  listUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "./user.controller";
 
-// 🔐 só ADMIN pode listar usuários
-userRoutes.get("/", authenticate, requireRole("ADMIN"), listUsers);
+const router = Router();
+
+router.use(authenticate, requireRole("ADMIN"));
+
+router.get("/", listUsers);
+router.post("/", createUser);
+router.put("/:id", updateUser);
+router.delete("/:id", deleteUser);
+
+export default router;
